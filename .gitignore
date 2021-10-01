@@ -4,3 +4,4 @@ build
 kepper/build
 examples/build
 .idea/*
+.DS_Store
