@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-     implementation(project(":kepper"))
+     implementation(project(":annotations"))
 }
 
 tasks.getByName<Test>("test") {
