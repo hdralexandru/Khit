@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "Kepper"
-include(":kepper", ":examples")
+include(":annotations", ":examples", ":processor")
