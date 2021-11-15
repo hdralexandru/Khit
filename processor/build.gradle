@@ -12,6 +12,10 @@ repositories {
 dependencies {
     implementation project(":annotations")
     implementation("com.google.devtools.ksp:symbol-processing-api:1.5.31-1.0.0")
+
+    def apache = '5.0.0'
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    implementation "org.apache.poi:poi:$apache"
 }
 
 test {
