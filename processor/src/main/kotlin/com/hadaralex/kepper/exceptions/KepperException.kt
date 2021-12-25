@@ -1,5 +1,7 @@
 package com.hadaralex.kepper.exceptions
 
+import java.lang.reflect.Type
+
 sealed class KepperException(message: String?) : Exception(message) {
     companion object {
 
@@ -15,12 +17,20 @@ sealed class KepperException(message: String?) : Exception(message) {
 
 class SheetNotFoundException internal constructor(
     message: String? = null,
-): KepperException(message)
+) : KepperException(message)
 
 class MissingValueException internal constructor(
     message: String? = null,
-): KepperException(message)
+) : KepperException(message)
 
 class MissingIndexException internal constructor(
     message: String? = null,
-): KepperException(message)
+) : KepperException(message)
+
+class AdapterNotFoundException internal constructor(
+    message: String? = null,
+) : KepperException(message) {
+    internal constructor(type: Type) : this(
+        "Couldn\'t find and adapter for class ${type::class.java}. Make sure it's properly annotated"
+    )
+}

@@ -2,6 +2,7 @@
 
 package com.hadaralex.kepper.generated
 
+import com.hadaralex.kepper.adapter.SheetAdapter
 import com.hadaralex.kepper.exceptions.KepperException
 import com.hadaralex.kepper.internal.SheetHeaders
 import com.hadaralex.kepper.model.CellContent
@@ -16,7 +17,10 @@ import com.hadaralex.kepper.util.readStringOr
  *
  * This way it will be easier to generate it via code.
  */
-class Item_DataMapper {
+class Item_SheetAdapter: SheetAdapter<Item> {
+    override fun readAll(): ReadResult<Item> {
+        TODO("Not yet implemented")
+    }
 
     fun toListOfItems(headers: SheetHeaders, rows: List<List<CellContent>>): List<ReadResult<Item>> {
 
