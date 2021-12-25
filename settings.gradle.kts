@@ -8,7 +8,6 @@
  */
 
 rootProject.name = "Kepper"
-include(":annotations", ":examples", ":processor")
-include("adapter")
-include("depconstraints")
-include("adapters")
+include(
+    ":annotations", ":examples", ":processor",":depconstraints", ":adapters"
+)
