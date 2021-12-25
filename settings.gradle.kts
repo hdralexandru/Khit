@@ -9,3 +9,4 @@
 
 rootProject.name = "Kepper"
 include(":annotations", ":examples", ":processor")
+include("adapter")
