@@ -1,7 +1,5 @@
 package com.hadaralex.kepper.util
 
-import com.hadaralex.kepper.model.CellContent
-
 internal inline fun CellContent?.readIntOr(crossinline backupValue: () -> Int): Int {
     return if (this is CellContent.TypeInt) {
         this.intValue

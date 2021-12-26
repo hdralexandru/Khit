@@ -1,4 +1,4 @@
-package com.hadaralex.kepper.exceptions
+package com.kepper.commons.exceptions
 
 import java.lang.reflect.Type
 

@@ -9,5 +9,5 @@
 
 rootProject.name = "Kepper"
 include(
-    ":annotations", ":examples", ":processor",":depconstraints", ":adapters", ":sheets"
+    ":annotations", ":examples", ":processor",":depconstraints", ":adapters", ":sheets", ":commons"
 )

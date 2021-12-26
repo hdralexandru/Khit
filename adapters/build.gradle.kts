@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     implementation(platform(project(":depconstraints")))
+    implementation(project(":commons"))
 
     implementation(Libs.Kotlin.COROUTINES)
 }

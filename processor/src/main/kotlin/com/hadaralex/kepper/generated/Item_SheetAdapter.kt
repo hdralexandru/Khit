@@ -5,8 +5,6 @@ package com.hadaralex.kepper.generated
 import com.hadaralex.kepper.adapter.SheetAdapter
 import com.hadaralex.kepper.exceptions.KepperException
 import com.hadaralex.kepper.internal.SheetHeaders
-import com.hadaralex.kepper.model.CellContent
-import com.hadaralex.kepper.model.ReadResult
 import com.hadaralex.kepper.tryout.Item
 import com.hadaralex.kepper.util.readBooleanOr
 import com.hadaralex.kepper.util.readIntOr

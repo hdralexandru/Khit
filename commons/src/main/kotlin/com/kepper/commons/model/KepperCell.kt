@@ -1,4 +1,4 @@
-package cells
+package com.kepper.commons.model
 
 sealed interface KepperCell {
     class TypeBoolean(val value: Boolean): KepperCell

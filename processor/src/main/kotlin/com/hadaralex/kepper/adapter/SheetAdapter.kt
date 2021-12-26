@@ -1,6 +1,5 @@
 package com.hadaralex.kepper.adapter
 
-import com.hadaralex.kepper.model.ReadResult
 import java.lang.reflect.Type
 
 interface SheetAdapter<T> {

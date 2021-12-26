@@ -1,6 +1,6 @@
-package com.hadaralex.kepper.file
+package com.kepper.commons.model
 
-interface KepperSheet {
+interface KepperPage {
     val sheetName: String
 
 //    fun adapter(type: SheetAdapter<*>): List<ReadResult<*>>

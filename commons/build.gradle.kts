@@ -1,7 +1,5 @@
-import main.kotlin.Libs
-
 plugins {
-    kotlin("jvm") version main.kotlin.Versions.KOTLIN
+    kotlin("jvm") version "1.5.31"
     java
 }
 
@@ -12,13 +10,9 @@ repositories {
 }
 
 dependencies {
-    implementation(platform(project(":depconstraints")))
-    implementation(project(":commons"))
     implementation(kotlin("stdlib"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
-    implementation(Libs.Kotlin.COROUTINES)
 }
 
 tasks.getByName<Test>("test") {
