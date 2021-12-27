@@ -1,4 +1,4 @@
-package com.hadaralex.kepper.tryout
+package com.kepper.adapters.generated
 
 import com.hadaralex.kepper.TableColumn
 

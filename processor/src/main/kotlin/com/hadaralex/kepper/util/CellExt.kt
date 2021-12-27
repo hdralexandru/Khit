@@ -13,3 +13,4 @@ internal val Cell?.isEmpty: Boolean
         || cellType == CellType.BLANK
         || cellType == CellType._NONE
         || (cellType == CellType.STRING && stringCellValue.isBlank())
+

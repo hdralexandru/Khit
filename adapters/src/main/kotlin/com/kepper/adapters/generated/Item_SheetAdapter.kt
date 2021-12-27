@@ -1,62 +1,60 @@
 @file:Suppress("ClassName")
 
-package com.hadaralex.kepper.generated
+package com.kepper.adapters.generated
 
-import com.hadaralex.kepper.adapter.SheetAdapter
-import com.hadaralex.kepper.exceptions.KepperException
-import com.hadaralex.kepper.internal.SheetHeaders
-import com.hadaralex.kepper.tryout.Item
-import com.hadaralex.kepper.util.readBooleanOr
-import com.hadaralex.kepper.util.readIntOr
-import com.hadaralex.kepper.util.readStringOr
+import com.kepper.adapters.KepperAdapter
+import com.kepper.adapters.model.RowReadResult
+import com.kepper.adapters.utils.readBooleanOr
+import com.kepper.adapters.utils.readIntOr
+import com.kepper.adapters.utils.readStringOr
+import com.kepper.commons.exceptions.KepperException
+import com.kepper.commons.model.CellType
+import com.kepper.commons.model.KepperPage
 
 /**
  * NOTE: We simulate how a generated class should look like.
  *
  * This way it will be easier to generate it via code.
  */
-class Item_SheetAdapter: SheetAdapter<Item> {
-    override fun readAll(): ReadResult<Item> {
-        TODO("Not yet implemented")
-    }
+class Item_SheetAdapter : KepperAdapter<Item> {
 
-    fun toListOfItems(headers: SheetHeaders, rows: List<List<CellContent>>): List<ReadResult<Item>> {
-
+    override suspend fun readSheet(sheet: KepperPage): List<RowReadResult<Item>> {
         // How to handle cases when it's missing index?
         // Think of default values ?
         // TODO think about default values
-        val idIndex: Int = headers.indexOf("id")
-        val nameIndex: Int = headers.indexOf("name")
-        val availableIndex: Int = headers.indexOf("available")
+//        val headers : Map<String, String> = emptyMap()
+//        val idIndex: Int = headers.indexOf("id")
+//        val nameIndex: Int = headers.indexOf("name")
+//        val availableIndex: Int = headers.indexOf("available")
+//
+//        val items: MutableList<RowReadResult<Item>> = mutableListOf()
+//
+//        for ((rowIndex: Int, row: List<CellType>) in rows.withIndex()) {
+//            val next = readNextRow(row, rowIndex, idIndex, nameIndex, availableIndex)
+//
+//            items.add(next)
+//        }
 
-        val items: MutableList<ReadResult<Item>> = mutableListOf()
-
-        for ((rowIndex: Int, row: List<CellContent>) in rows.withIndex()) {
-            val next = readNextRow(row, rowIndex, idIndex, nameIndex, availableIndex)
-
-            items.add(next)
-        }
-
-        return items.toList()
+        return emptyList()
     }
 
     private fun readNextRow(
-        row: List<CellContent>,
+        row: List<CellType>,
         rowIndex: Int,
         idIndex: Int,
         nameIndex: Int,
         availableIndex: Int,
-    ): ReadResult<Item> {
+    ): RowReadResult<Item> {
         return try {
             val item = tryReadNextRowOrThrow(row, rowIndex, idIndex, nameIndex, availableIndex)
-            ReadResult.Success(item)
+            RowReadResult.Success(item)
         } catch (kepperException: KepperException) {
-            ReadResult.Failure(kepperException)
+            RowReadResult.Failure(kepperException)
         }
     }
 
     private fun tryReadNextRowOrThrow(
-        row: List<CellContent>,
+        row: List<CellType>,
         rowIndex: Int,
         idIndex: Int,
         nameIndex: Int,
