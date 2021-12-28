@@ -2,9 +2,9 @@ package com.kepper.sheets.utils
 
 import com.kepper.commons.model.KepperCell
 
-internal inline fun KepperCell?.readIntOr(crossinline backupValue: () -> Int): Int {
-    return if (this is KepperCell.TypeInt) {
-        this.intValue
+internal inline fun KepperCell?.readDoubleOr(crossinline backupValue: () -> Double): Double {
+    return if (this is KepperCell.TypeDouble) {
+        this.doubleValue
     } else backupValue()
 }
 

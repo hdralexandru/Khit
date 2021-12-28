@@ -5,5 +5,5 @@ interface KepperPage {
 
     val header: PageHeader
 
-    val dataRowIterator: Iterator<KepperCell>
+    val dataRowIterator: Iterator<KepperRow>
 }

@@ -1,5 +1,6 @@
-package com.kepper.sheets.utils
+package com.kepper.sheets.microsoft
 
+import com.kepper.commons.model.KepperCell
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellType
 
@@ -14,3 +15,10 @@ internal val Cell?.isEmpty: Boolean
         || cellType == CellType._NONE
         || (cellType == CellType.STRING && stringCellValue.isBlank())
 
+internal val Cell.toKepperCell: KepperCell
+    get() = when (this.cellType) {
+        CellType.BOOLEAN -> KepperCell.TypeBoolean(this.booleanCellValue)
+        CellType.STRING -> KepperCell.TypeString(this.stringCellValue)
+        CellType.NUMERIC -> KepperCell.TypeDouble(this.numericCellValue)
+        else -> KepperCell.Unsupported
+    }
