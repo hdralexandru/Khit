@@ -8,7 +8,7 @@ import com.kepper.adapters.utils.readBooleanOr
 import com.kepper.adapters.utils.readIntOr
 import com.kepper.adapters.utils.readStringOr
 import com.kepper.commons.exceptions.KepperException
-import com.kepper.commons.model.CellType
+import com.kepper.commons.model.KepperCell
 import com.kepper.commons.model.KepperPage
 
 /**
@@ -39,7 +39,7 @@ class Item_SheetAdapter : KepperAdapter<Item> {
     }
 
     private fun readNextRow(
-        row: List<CellType>,
+        row: List<KepperCell>,
         rowIndex: Int,
         idIndex: Int,
         nameIndex: Int,
@@ -54,7 +54,7 @@ class Item_SheetAdapter : KepperAdapter<Item> {
     }
 
     private fun tryReadNextRowOrThrow(
-        row: List<CellType>,
+        row: List<KepperCell>,
         rowIndex: Int,
         idIndex: Int,
         nameIndex: Int,

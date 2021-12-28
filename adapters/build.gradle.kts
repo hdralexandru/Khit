@@ -17,6 +17,8 @@ dependencies {
     implementation(project(":annotations"))
 
     implementation(Libs.Kotlin.COROUTINES)
+    implementation(Libs.ApachePoi.Base)
+    implementation(Libs.ApachePoi.Ooxml)
 }
 
 //tasks.getByName<Test>("test") {

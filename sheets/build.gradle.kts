@@ -19,6 +19,8 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
     implementation(Libs.Kotlin.COROUTINES)
+    implementation(Libs.ApachePoi.Base)
+    implementation(Libs.ApachePoi.Ooxml)
 }
 
 tasks.getByName<Test>("test") {

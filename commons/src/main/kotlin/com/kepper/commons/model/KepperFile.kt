@@ -1,7 +1,7 @@
 package com.kepper.commons.model
 
 interface KepperFile {
-    val name: String
+    val pagesCount: Int
 
-    val pages: Iterator<KepperPage>
+    fun pageList(): List<KepperPage>
 }

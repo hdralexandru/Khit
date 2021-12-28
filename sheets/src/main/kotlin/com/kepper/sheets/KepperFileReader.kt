@@ -1,15 +1,16 @@
 package com.kepper.sheets
 
 import com.kepper.commons.model.KepperFile
+import com.kepper.sheets.microsoft.MicrosoftFileOpener
 
 class KepperFileReader private constructor(
     private val fileType: FileType,
     private val path: AbsolutFilePath,
 ) {
-
-    suspend fun loadFile(): KepperFile {
-        TODO()
-    }
+    suspend fun loadFile(): KepperFile = when (fileType) {
+        FileType.MICROSOFT -> MicrosoftFileOpener()
+        FileType.OPEN_OFFICE -> TODO()
+    }.open(path)
 
     class Builder {
         var type: FileType? = null
