@@ -15,19 +15,17 @@ sealed class KepperException(message: String?) : Exception(message) {
     }
 }
 
-class SheetNotFoundException internal constructor(
-    message: String? = null,
-) : KepperException(message)
+class SheetNotFoundException constructor(message: String? = null) : KepperException(message)
 
-class MissingValueException internal constructor(
-    message: String? = null,
-) : KepperException(message)
+class MissingValueException constructor(message: String? = null) : KepperException(message)
 
-class MissingIndexException internal constructor(
-    message: String? = null,
-) : KepperException(message)
+class MissingIndexException constructor(message: String? = null) : KepperException(message)
 
-class AdapterNotFoundException internal constructor(
+class HeaderNotFoundException constructor(message: String? = null) : KepperException(message)
+
+class WrongCellTypeException constructor(message: String? = null): KepperException(message)
+
+class AdapterNotFoundException constructor(
     message: String? = null,
 ) : KepperException(message) {
     internal constructor(type: Type) : this(

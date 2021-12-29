@@ -4,7 +4,7 @@ import com.hadaralex.kepper.TableColumn
 
 data class Item(
     @TableColumn(columnName = "id")
-    val id: Int,
+    val id: Double,
     @TableColumn(columnName = "name")
     val name: String,
     @TableColumn(columnName = "available")

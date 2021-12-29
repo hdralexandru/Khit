@@ -4,12 +4,10 @@ package com.kepper.adapters.generated
 
 import com.kepper.adapters.KepperAdapter
 import com.kepper.adapters.model.RowReadResult
-import com.kepper.adapters.utils.readBooleanOr
-import com.kepper.adapters.utils.readIntOr
-import com.kepper.adapters.utils.readStringOr
-import com.kepper.commons.exceptions.KepperException
-import com.kepper.commons.model.KepperCell
+import com.kepper.adapters.utils.RowReader
+import com.kepper.adapters.utils.indexOfOrThrow
 import com.kepper.commons.model.KepperPage
+import com.kepper.commons.model.PageHeader
 
 /**
  * NOTE: We simulate how a generated class should look like.
@@ -21,62 +19,33 @@ class Item_SheetAdapter : KepperAdapter<Item> {
     override suspend fun readSheet(sheet: KepperPage): List<RowReadResult<Item>> {
         // How to handle cases when it's missing index?
         // Think of default values ?
-        // TODO think about default values
-//        val headers : Map<String, String> = emptyMap()
-//        val idIndex: Int = headers.indexOf("id")
-//        val nameIndex: Int = headers.indexOf("name")
-//        val availableIndex: Int = headers.indexOf("available")
-//
-//        val items: MutableList<RowReadResult<Item>> = mutableListOf()
-//
-//        for ((rowIndex: Int, row: List<CellType>) in rows.withIndex()) {
-//            val next = readNextRow(row, rowIndex, idIndex, nameIndex, availableIndex)
-//
-//            items.add(next)
-//        }
+        val header: PageHeader = sheet.header
+        // This part will be generated.
 
-        return emptyList()
-    }
+        // If the header is missing, throw an exception.
+        // We will generate such a row for each
+        val idIndex: Int = header.indexOfOrThrow("id", sheet.sheetName)
+        val nameIndex: Int = header.indexOfOrThrow("name", sheet.sheetName)
+        val availableIndex: Int = header.indexOfOrThrow("available", sheet.sheetName)
 
-    private fun readNextRow(
-        row: List<KepperCell>,
-        rowIndex: Int,
-        idIndex: Int,
-        nameIndex: Int,
-        availableIndex: Int,
-    ): RowReadResult<Item> {
-        return try {
-            val item = tryReadNextRowOrThrow(row, rowIndex, idIndex, nameIndex, availableIndex)
-            RowReadResult.Success(item)
-        } catch (kepperException: KepperException) {
-            RowReadResult.Failure(kepperException)
-        }
-    }
+        val items: MutableList<RowReadResult<Item>> = mutableListOf()
 
-    private fun tryReadNextRowOrThrow(
-        row: List<KepperCell>,
-        rowIndex: Int,
-        idIndex: Int,
-        nameIndex: Int,
-        availableIndex: Int,
-    ): Item {
-        // Note: we'll generate a var for each element
-        // The names will be the ones from the annotation
-        val id: Int = row.getOrNull(idIndex).readIntOr {
-            // In case we're missing the value and, we have no default value, we throw exception
-            KepperException.throwMissingValue(idIndex, rowIndex)
-        }
-        val name: String = row.getOrNull(nameIndex).readStringOr {
-            "default_string_value"
-        }
-        val available: Boolean = row.getOrNull(availableIndex).readBooleanOr {
-            false
+        // we append underscores so it won't
+        for (row in sheet.dataRowIterator) {
+
+            val rowReadResult: RowReadResult<Item> = RowReadResult {
+                // If we have default value, we will replace it. Otherwise, we do nothing and it will throw
+                // We simulate that id has no default value.
+                val id: Double = RowReader.readDoubleOrThrow(row, idIndex)
+                val name: String = RowReader.readStringOrThrow(row, nameIndex, "__default_name_value__")
+                val available: Boolean = RowReader.readBooleanOrThrow(row, availableIndex, true)
+
+                Item(id = id, name = name, available = available)
+            }
+
+            items.add(rowReadResult)
         }
 
-        return Item(
-            id = id,
-            name = name,
-            available = available
-        )
+        return items
     }
 }
