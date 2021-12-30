@@ -1,6 +1,6 @@
-package com.kepper.adapters.generated
+package com.hadaralex.kepper.generated
 
-import com.hadaralex.kepper.TableColumn
+import com.hadaralex.kepper.annotations.TableColumn
 
 data class Item(
     @TableColumn(columnName = "id")

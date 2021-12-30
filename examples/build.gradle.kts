@@ -23,10 +23,7 @@ kotlin {
 
 dependencies {
     implementation(platform(project(":depconstraints")))
-    implementation(project(":annotations"))
-    implementation(project(":sheets"))
-    ksp(project(":adapters"))
-
+    implementation(project(":khit"))
     implementation(Libs.Kotlin.COROUTINES)
 }
 

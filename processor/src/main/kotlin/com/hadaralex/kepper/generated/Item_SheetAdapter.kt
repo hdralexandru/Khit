@@ -1,11 +1,12 @@
 @file:Suppress("ClassName")
 
-package com.kepper.adapters.generated
+package com.hadaralex.kepper.generated
 
-import com.kepper.adapters.KepperAdapter
-import com.kepper.adapters.model.RowReadResult
-import com.kepper.adapters.utils.RowReader
-import com.kepper.adapters.utils.indexOfOrThrow
+import com.hadaralex.kepper.util.RowReader
+import com.hadaralex.kepper.util.indexOfOrThrow
+import com.kepper.commons.KepperAdapter
+import com.kepper.commons.RowReadResult
+import com.kepper.commons.exceptions.KepperException
 import com.kepper.commons.model.KepperPage
 import com.kepper.commons.model.PageHeader
 
@@ -33,7 +34,7 @@ class Item_SheetAdapter : KepperAdapter<Item> {
         // we append underscores so it won't
         for (row in sheet.dataRowIterator) {
 
-            val rowReadResult: RowReadResult<Item> = RowReadResult {
+            val rowReadResult: RowReadResult<Item> = wrapInRowReadResult {
                 // If we have default value, we will replace it. Otherwise, we do nothing and it will throw
                 // We simulate that id has no default value.
                 val id: Double = RowReader.readDoubleOrThrow(row, idIndex)
@@ -48,4 +49,13 @@ class Item_SheetAdapter : KepperAdapter<Item> {
 
         return items
     }
+
+    private companion object {
+        inline fun <T> wrapInRowReadResult(func: () -> T): RowReadResult<T> = try {
+            RowReadResult.Success(func())
+        } catch (ke: KepperException) {
+            RowReadResult.Failure(ke)
+        }
+    }
+
 }

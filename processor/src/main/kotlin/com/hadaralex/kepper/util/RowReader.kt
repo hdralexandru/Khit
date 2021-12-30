@@ -1,11 +1,11 @@
-package com.kepper.adapters.utils
+package com.hadaralex.kepper.util
 
 import com.kepper.commons.exceptions.WrongCellTypeException
 import com.kepper.commons.model.KepperCell
 import com.kepper.commons.model.KepperRow
 import com.kepper.commons.utils.KepperCellType
 
-internal object RowReader {
+object RowReader {
 
     fun readDoubleOrThrow(row: KepperRow, index: Int, defaultValue: Double? = null): Double {
         return readOrThrow(row, index, defaultValue, KepperCell.TypeDouble.CELL_TYPE) {

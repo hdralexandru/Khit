@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(":annotations")
+    implementation project(":commons")
     implementation("com.google.devtools.ksp:symbol-processing-api:1.5.31-1.0.0")
 
     def apache = '5.0.0'

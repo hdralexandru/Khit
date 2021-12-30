@@ -1,4 +1,4 @@
-package com.hadaralex.kepper
+package com.hadaralex.kepper.annotations
 
 @Retention(AnnotationRetention.BINARY)
 @Target(AnnotationTarget.FIELD)

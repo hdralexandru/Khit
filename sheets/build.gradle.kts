@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     implementation(platform(project(":depconstraints")))
+    implementation(kotlin("stdlib"))
     api(project(":commons"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")

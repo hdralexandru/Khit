@@ -1,4 +1,4 @@
-package com.kepper.adapters.utils
+package com.hadaralex.kepper.util
 
 import com.kepper.commons.NO_HEADER
 import com.kepper.commons.exceptions.HeaderNotFoundException
