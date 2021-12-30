@@ -1,8 +1,8 @@
 import main.kotlin.Libs
 
 plugins {
-    kotlin("jvm") version "1.5.30"
-    id("com.google.devtools.ksp") version "1.5.30-1.0.0-beta09"
+    kotlin("jvm") version  main.kotlin.Versions.KOTLIN
+    id("com.google.devtools.ksp") version main.kotlin.Versions.KSP
     java
 }
 
@@ -25,7 +25,7 @@ dependencies {
     implementation(platform(project(":depconstraints")))
     implementation(project(":annotations"))
     implementation(project(":sheets"))
-    implementation(project(":adapters"))
+    ksp(project(":adapters"))
 
     implementation(Libs.Kotlin.COROUTINES)
 }
