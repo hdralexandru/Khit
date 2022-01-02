@@ -5,7 +5,7 @@ import com.kepper.commons.exceptions.HeaderNotFoundException
 import com.kepper.commons.model.PageHeader
 
 /**
- * Returns the index of [header] or throws ]
+ * Returns the index of [header] or throws
  */
 internal fun PageHeader.indexOfOrThrow(header: String, sheetName: String): Int {
     val index = this.indexOf(header)

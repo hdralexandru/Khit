@@ -1,27 +1,32 @@
 package com.khit.processor.model
 
+import com.google.devtools.ksp.getClassDeclarationByName
 import com.google.devtools.ksp.processing.KSPLogger
+import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFunctionDeclaration
 import com.khit.processor.util.PAGE_ANNOTATION
+import com.squareup.kotlinpoet.asClassName
+import kotlin.reflect.KClass
 
 /**
  * Represents the data necessary to create an adapter.
  */
 internal data class AnnotatedModel(
-    val filename: String,
+    val className: String,
     val packageName: String,
     val members: List<ParameterModel>,
 ) {
     companion object {
-        fun from(logger: KSPLogger, symbol: KSAnnotated): AnnotatedModel? {
+        fun from(logger: KSPLogger, symbol: KSAnnotated, resolver: Resolver): AnnotatedModel? {
             logger.warn("Found symbol ${symbol.location}, $symbol")
             if (symbol !is KSClassDeclaration) {
                 logger.error("$PAGE_ANNOTATION can only be applied to classes!")
                 return null
             }
+            logger.warn("")
 
             val primaryConstructor: KSFunctionDeclaration? = symbol.primaryConstructor
             if (primaryConstructor == null) {
