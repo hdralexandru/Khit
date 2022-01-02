@@ -7,7 +7,9 @@ import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.khit.processor.model.AnnotatedModel
 import com.khit.processor.util.PAGE_ANNOTATION
+import com.squareup.kotlinpoet.ksp.KotlinPoetKspPreview
 
+@KotlinPoetKspPreview
 internal class KepperAnnotationProcessor(
     private val codeGenerator: CodeGenerator,
     private val logger: KSPLogger,
@@ -28,7 +30,7 @@ internal class KepperAnnotationProcessor(
         }
 
         models.forEach {
-            logger.warn("Model: $it")
+            FileGenerator(it).writeTo(codeGenerator)
         }
 
         // returning

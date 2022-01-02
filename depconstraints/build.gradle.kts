@@ -17,5 +17,6 @@ dependencies {
         api("${Libs.ApachePoi.Base}:${DepsVersions.APACHE_POI}")
         api("${Libs.ApachePoi.Ooxml}:${DepsVersions.APACHE_POI}")
         api("${Libs.Square.KotlinPoet}:${DepsVersions.KOTLIN_POET}")
+        api("${Libs.Square.KotlinPoetKsp}:${DepsVersions.KOTLIN_POET}")
     }
 }

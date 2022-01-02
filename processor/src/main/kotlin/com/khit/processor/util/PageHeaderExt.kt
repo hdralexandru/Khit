@@ -7,7 +7,7 @@ import com.kepper.commons.model.PageHeader
 /**
  * Returns the index of [header] or throws
  */
-internal fun PageHeader.indexOfOrThrow(header: String, sheetName: String): Int {
+fun PageHeader.indexOfOrThrow(header: String, sheetName: String): Int {
     val index = this.indexOf(header)
     if (index == NO_HEADER) {
         throw HeaderNotFoundException("The header with $header was not found in the sheet named $sheetName!")

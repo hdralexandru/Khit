@@ -12,5 +12,6 @@ object Libs {
 
     object Square {
         const val KotlinPoet: String = "com.squareup:kotlinpoet"
+        const val KotlinPoetKsp: String = "com.squareup:kotlinpoet-ksp"
     }
 }

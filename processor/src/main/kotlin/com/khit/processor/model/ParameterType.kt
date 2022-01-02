@@ -8,6 +8,13 @@ internal enum class ParameterType {
     BOOLEAN,
     UNSUPPORTED;
 
+    val kotlinType: String get() = when(this) {
+        STRING -> "String"
+        DOUBLE -> "Double"
+        BOOLEAN -> "Boolean"
+        UNSUPPORTED -> "Nothing" // it will throw
+    }
+
     companion object {
         private val KSDeclaration.isBoolean get() = this.simpleName.asString() == "Boolean"
         private val KSDeclaration.isString get() = this.simpleName.asString() == "String"
