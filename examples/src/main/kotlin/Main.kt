@@ -2,7 +2,6 @@ import com.kepper.commons.model.KepperCell
 import com.kepper.sheets.AbsolutFilePath
 import com.kepper.sheets.FileType
 import com.kepper.sheets.KepperFileReader
-import kotlinx.coroutines.runBlocking
 
 internal object Main {
     private const val SHEET_PATH: String = "data/products.xlsx"
@@ -14,9 +13,9 @@ internal object Main {
             type = FileType.MICROSOFT
         }
 
-        runBlocking {
-            val list = reader.loadFile().pages()
-        }
+//        runBlocking {
+//            val list = reader.loadFile().pages()
+//        }
     }
 
     private val KepperCell.valueType: String

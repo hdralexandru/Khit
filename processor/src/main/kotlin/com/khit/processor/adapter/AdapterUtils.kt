@@ -1,5 +1,6 @@
-package com.hadaralex.kepper.adapter
+package com.khit.processor.adapter
 
+import com.kepper.commons.KepperAdapter
 import java.lang.reflect.Type
 
 internal object AdapterUtils {
@@ -12,7 +13,7 @@ internal object AdapterUtils {
             .replace("$", "_")
     }
 
-    operator fun get(type: Type): SheetAdapter<*> = synchronized(this) {
+    operator fun get(type: Type): KepperAdapter<*> = synchronized(this) {
         return@synchronized adapterCache[type] ?: kotlin.run {
             val adapter = create(type)
             adapterCache[type] = adapter
@@ -20,7 +21,7 @@ internal object AdapterUtils {
         }
     }
 
-    private fun create(type: Type): SheetAdapter<*> {
+    private fun create(type: Type): KepperAdapter<*> {
         val name = generateAdapterName(type)
         val classLoader = type.javaClass.classLoader
 

@@ -1,9 +1,9 @@
 @file:Suppress("ClassName")
 
-package com.hadaralex.kepper.generated
+package com.khit.processor.generated
 
-import com.hadaralex.kepper.util.RowReader
-import com.hadaralex.kepper.util.indexOfOrThrow
+import com.khit.processor.util.RowReader
+import com.khit.processor.util.indexOfOrThrow
 import com.kepper.commons.KepperAdapter
 import com.kepper.commons.RowReadResult
 import com.kepper.commons.exceptions.KepperException

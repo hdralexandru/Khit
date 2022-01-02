@@ -24,6 +24,7 @@ kotlin {
 dependencies {
     implementation(platform(project(":depconstraints")))
     implementation(project(":khit"))
+    ksp(project(":processor"))
     implementation(Libs.Kotlin.COROUTINES)
 }
 

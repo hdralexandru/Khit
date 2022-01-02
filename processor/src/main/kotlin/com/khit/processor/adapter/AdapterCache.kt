@@ -1,16 +1,17 @@
-package com.hadaralex.kepper.adapter
+package com.khit.processor.adapter
 
+import com.kepper.commons.KepperAdapter
 import java.lang.reflect.Type
 
 internal class AdapterCache {
-    private val cache: MutableMap<String, SheetAdapter<*>> = mutableMapOf()
+    private val cache: MutableMap<String, KepperAdapter<*>> = mutableMapOf()
 
-    operator fun get(type: Type): SheetAdapter<*>? {
+    operator fun get(type: Type): KepperAdapter<*>? {
         val key = createKey(type)
         return cache[key]
     }
 
-    operator fun set(type: Type, sheetAdapter: SheetAdapter<*>) {
+    operator fun set(type: Type, sheetAdapter: KepperAdapter<*>) {
         val key = createKey(type)
         cache[key] = sheetAdapter
     }
