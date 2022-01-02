@@ -1,9 +1,9 @@
+import main.kotlin.Libs
+
 plugins {
     kotlin("jvm") version main.kotlin.Versions.KOTLIN
     java
 }
-
-version = "unspecified"
 
 repositories {
     mavenCentral()
@@ -11,11 +11,5 @@ repositories {
 
 dependencies {
     implementation(platform(project(":depconstraints")))
-    api(project(":commons"))
-    api(project(":sheets"))
-    api(project(":utils"))
-}
-
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+    implementation(project(":commons"))
 }

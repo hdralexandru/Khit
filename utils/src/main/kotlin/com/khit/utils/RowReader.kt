@@ -1,4 +1,4 @@
-package com.khit.processor.util
+package com.khit.utils
 
 import com.kepper.commons.exceptions.WrongCellTypeException
 import com.kepper.commons.model.KepperCell

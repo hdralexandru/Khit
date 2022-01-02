@@ -9,3 +9,4 @@
 
 rootProject.name = "Kepper"
 include(":examples", ":processor", ":depconstraints", ":sheets", ":commons", ":khit")
+include("utils")

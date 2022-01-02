@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation(project(":commons"))
     implementation(platform(project(":depconstraints")))
+    implementation(platform(project(":utils")))
     implementation("com.google.devtools.ksp:symbol-processing-api:1.5.31-1.0.0")
 
     implementation(Libs.ApachePoi.Base)

@@ -2,13 +2,13 @@
 
 package com.khit.processor.generated
 
-import com.khit.processor.util.RowReader
-import com.khit.processor.util.indexOfOrThrow
+import com.khit.utils.indexOfOrThrow
 import com.kepper.commons.KepperAdapter
 import com.kepper.commons.RowReadResult
 import com.kepper.commons.exceptions.KepperException
 import com.kepper.commons.model.KepperPage
 import com.kepper.commons.model.PageHeader
+import com.khit.utils.RowReader
 
 /**
  * NOTE: We simulate how a generated class should look like.

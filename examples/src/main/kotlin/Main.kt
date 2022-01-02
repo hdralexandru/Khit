@@ -1,7 +1,10 @@
+import com.kepper.commons.KepperAdapter
+import com.kepper.commons.RowReadResult
 import com.kepper.commons.model.KepperCell
 import com.kepper.sheets.AbsolutFilePath
 import com.kepper.sheets.FileType
 import com.kepper.sheets.KepperFileReader
+import kotlinx.coroutines.runBlocking
 
 internal object Main {
     private const val SHEET_PATH: String = "data/products.xlsx"
@@ -13,9 +16,17 @@ internal object Main {
             type = FileType.MICROSOFT
         }
 
-//        runBlocking {
-//            val list = reader.loadFile().pages()
-//        }
+        runBlocking {
+            val list = reader.loadFile().pages()
+            val adapter: KepperAdapter<Item> = PageAdapter_Item()
+            val items = adapter.readSheet(list.first())
+            for (item in items) {
+                when (item) {
+                    is RowReadResult.Failure -> println("[Failure] ${item.reason}")
+                    is RowReadResult.Success -> println("[Success] ${item.data}")
+                }
+            }
+        }
     }
 
     private val KepperCell.valueType: String
