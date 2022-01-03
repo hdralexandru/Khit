@@ -11,11 +11,13 @@ import com.khit.processor.model.AnnotatedModel
 import com.khit.processor.model.ParameterModel
 import com.khit.processor.model.ParameterType
 import com.khit.utils.NamingUtils
+import com.khit.utils.RowReader
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.ParameterizedTypeName
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.plusParameter
 import com.squareup.kotlinpoet.TypeSpec
@@ -67,12 +69,7 @@ internal class FileGenerator private constructor(private val model: AnnotatedMod
             .parameterizedBy(rowReadResultType)
         addStatement("val items: %T = mutableListOf()", mutableListType)
 
-        val wrapIntoResultMember = MemberName("com.kepper.commons.RowReadResult.Companion", "wrapInRowReadResult")
-        beginControlFlow("for (row in page.dataRowIterator)")
-        beginControlFlow("val rowReadResult: %T = %M", rowReadResultType, wrapIntoResultMember)
-        for (pModel: ParameterModel in annotatedModel.members) {
-            addStatement("val ${pModel.key}: ${pModel.type.kotlinType} = com.khit.utils.RowReader.${pModel.type.asReadFunctionOrThrow}(row, ${pModel.key}Index)")
-        }
+        addRowInterogation(annotatedModel, rowReadResultType)
 
         val namedString = StringBuilder()
         for ((index: Int, pModel: ParameterModel) in annotatedModel.members.withIndex()) {
@@ -88,6 +85,23 @@ internal class FileGenerator private constructor(private val model: AnnotatedMod
 
         returns(ClassName("kotlin.collections", "List").parameterizedBy(rowReadResultType))
         addStatement("return items")
+    }
+
+    private fun FunSpec.Builder.addRowInterogation(
+        annotatedModel: AnnotatedModel,
+        rowReadResultType: ParameterizedTypeName,
+    ) = this.apply {
+        val wrapIntoResultMember = MemberName("com.kepper.commons.RowReadResult.Companion", "wrapInRowReadResult")
+        beginControlFlow("for (row in page.dataRowIterator)")
+        beginControlFlow("val rowReadResult: %T = %M", rowReadResultType, wrapIntoResultMember)
+        for (model: ParameterModel in annotatedModel.members) {
+            val function = if (model.isNullable) model.type.asReadFunctionOrNull else model.type.asReadFunctionOrThrow
+            val type = model.type.kotlinType + if (model.isNullable) "?" else ""
+            addStatement(
+                "val ${model.key}: $type = %T.$function(row, ${model.key}Index)",
+                RowReader::class.java
+            )
+        }
     }
 
     private fun FunSpec.Builder.readIndexes(annotatedModel: AnnotatedModel) = this.apply {
@@ -111,6 +125,15 @@ internal class FileGenerator private constructor(private val model: AnnotatedMod
             ParameterType.BOOLEAN -> "readBooleanOrThrow"
             ParameterType.UNSUPPORTED -> null
         }
+
+    private val ParameterType.asReadFunctionOrNull: String?
+        get() = when (this) {
+            ParameterType.STRING -> "readStringOrNull"
+            ParameterType.DOUBLE -> "readDoubleOrNull"
+            ParameterType.BOOLEAN -> "readBooleanOrNull"
+            ParameterType.UNSUPPORTED -> null
+        }
+
 
     companion object {
         @JvmStatic
