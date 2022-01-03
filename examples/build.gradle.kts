@@ -1,6 +1,8 @@
+import main.kotlin.Libs
+
 plugins {
-    kotlin("jvm") version "1.5.30"
-    id("com.google.devtools.ksp") version "1.5.30-1.0.0-beta09"
+    kotlin("jvm") version  main.kotlin.Versions.KOTLIN
+    id("com.google.devtools.ksp") version main.kotlin.Versions.KSP
     java
 }
 
@@ -20,8 +22,10 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(":annotations"))
+    implementation(platform(project(":depconstraints")))
+    implementation(project(":khit"))
     ksp(project(":processor"))
+    implementation(Libs.Kotlin.COROUTINES)
 }
 
 tasks.getByName<Test>("test") {
