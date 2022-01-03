@@ -18,7 +18,8 @@ internal object Main {
             type = FileType.MICROSOFT
         }
 
-        val adapter = Khit.adapter(Item::class.java)
+//        val adapter = Khit.adapter(Item::class.java)
+        val adapter = Khit.adapter(Grocery::class.java)
 
         runBlocking {
             val list = reader.loadFile().pages()

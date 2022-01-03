@@ -20,7 +20,7 @@ internal class AdapterCache {
     private fun createKey(type: Type): String = type::class.qualifiedName ?: type::class.java.simpleName
 
     private fun create(type: Class<*>): KepperAdapter<*> {
-        val name = NamingUtils.buildAdapterName(type.typeName)
+        val name = NamingUtils.buildAdapterName(type.simpleName)
         val pkg = type.`package`.name
 
         val completeName = if (pkg.isEmpty()) name else "${pkg}.${name}"
