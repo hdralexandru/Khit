@@ -8,5 +8,12 @@
  */
 
 rootProject.name = "Kepper"
-include(":examples", ":processor", ":depconstraints", ":sheets", ":commons", ":khit")
-include("utils")
+include(
+    ":examples", // Example folder
+    ":khit", // Main entry point for the app
+    ":processor", // KSP processor
+    ":depconstraints", // All constraints
+    ":sheets", // Code
+    ":commons",
+    ":utils"
+)

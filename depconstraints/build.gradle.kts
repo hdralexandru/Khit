@@ -1,8 +1,8 @@
 import main.kotlin.Libs
 
 plugins {
-    `java-platform`
-    `maven-publish`
+    id("java-platform")
+    id("maven-publish")
 }
 
 private object DepsVersions {
