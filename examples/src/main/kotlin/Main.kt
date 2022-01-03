@@ -1,3 +1,5 @@
+import com.example.demo.Grocery
+import com.hadaralex.khit.Khit
 import com.kepper.commons.KepperAdapter
 import com.kepper.commons.RowReadResult
 import com.kepper.commons.model.KepperCell
@@ -16,9 +18,10 @@ internal object Main {
             type = FileType.MICROSOFT
         }
 
+        val adapter = Khit.adapter(Item::class.java)
+
         runBlocking {
             val list = reader.loadFile().pages()
-            val adapter: KepperAdapter<Item> = PageAdapter_Item()
             val items = adapter.readSheet(list.first())
             for (item in items) {
                 when (item) {

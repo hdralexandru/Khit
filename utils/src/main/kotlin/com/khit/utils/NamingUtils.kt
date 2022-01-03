@@ -1,4 +1,4 @@
-package com.khit.processor.util
+package com.khit.utils
 
 object NamingUtils {
     fun buildAdapterName(className: String): String {

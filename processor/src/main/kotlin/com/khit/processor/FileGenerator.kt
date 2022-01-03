@@ -9,8 +9,7 @@ import com.kepper.commons.model.PageHeader
 import com.khit.processor.model.AnnotatedModel
 import com.khit.processor.model.ParameterModel
 import com.khit.processor.model.ParameterType
-import com.khit.processor.util.NamingUtils
-import com.khit.utils.RowReader
+import com.khit.utils.NamingUtils
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec

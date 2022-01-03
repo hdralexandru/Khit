@@ -2,6 +2,7 @@ package com.khit.processor.model
 
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.KSValueParameter
+import com.khit.processor.util.KEY_ANNOTATION
 
 internal data class ParameterModel(
     val name: String,
@@ -10,13 +11,11 @@ internal data class ParameterModel(
     val type: ParameterType,
 ) {
     companion object {
-        private const val QUALIFIER = "com.hadaralex.khit.annotations.Key"
-
         fun from(parameter: KSValueParameter, index: Int, logger: KSPLogger): ParameterModel? {
             var key: String? = null
             parameter.annotations.forEach {
                 val qualifier = it.annotationType.resolve().declaration.qualifiedName?.asString()
-                if (qualifier == QUALIFIER) {
+                if (qualifier == KEY_ANNOTATION) {
                     it.arguments.forEach { valueArgument ->
                         if (valueArgument.name?.asString() == "name") {
                             key = valueArgument.value.toString()
