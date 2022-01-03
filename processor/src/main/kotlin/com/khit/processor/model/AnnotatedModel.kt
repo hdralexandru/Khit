@@ -21,12 +21,10 @@ internal data class AnnotatedModel(
 ) {
     companion object {
         fun from(logger: KSPLogger, symbol: KSAnnotated): AnnotatedModel? {
-            logger.warn("Found symbol ${symbol.location}, $symbol")
             if (symbol !is KSClassDeclaration) {
                 logger.error("$PAGE_ANNOTATION can only be applied to classes!")
                 return null
             }
-            logger.warn("")
 
             val primaryConstructor: KSFunctionDeclaration? = symbol.primaryConstructor
             if (primaryConstructor == null) {
@@ -42,7 +40,6 @@ internal data class AnnotatedModel(
             val fileName: String = symbol.simpleName.asString()
             val packageName: String = symbol.packageName.asString()
 
-            logger.warn("Filepath: $packageName for file ${symbol.simpleName.asString()}")
             val parameterModels: MutableList<ParameterModel> = mutableListOf()
             primaryConstructor.parameters.forEachIndexed { index, ksValueParameter ->
                 // TODO add support for default args.

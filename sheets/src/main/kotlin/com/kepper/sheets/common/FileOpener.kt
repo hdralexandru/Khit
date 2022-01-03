@@ -5,6 +5,4 @@ import com.kepper.sheets.AbsolutFilePath
 
 internal interface FileOpener {
     suspend fun open(filepath: AbsolutFilePath): KepperFile
-
-    fun close()
 }

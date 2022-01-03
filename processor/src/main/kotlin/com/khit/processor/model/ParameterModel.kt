@@ -33,7 +33,6 @@ internal data class ParameterModel(
             val name = parameter.name?.asString() ?: return null
             val resolvedType = parameter.type.resolve()
             val type = ParameterType.from(resolvedType.declaration)
-            logger.warn("Parameter: $name of type $type")
             return if (type == ParameterType.UNSUPPORTED) {
                 logger.error("Unsupported type detected. Skipping...")
                 null

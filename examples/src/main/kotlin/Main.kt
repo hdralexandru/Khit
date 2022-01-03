@@ -1,8 +1,5 @@
-import com.example.demo.Grocery
 import com.hadaralex.khit.Khit
-import com.kepper.commons.KepperAdapter
 import com.kepper.commons.RowReadResult
-import com.kepper.commons.model.KepperCell
 import com.kepper.sheets.AbsolutFilePath
 import com.kepper.sheets.FileType
 import com.kepper.sheets.KepperFileReader
@@ -22,23 +19,16 @@ internal object Main {
 //        val adapter = Khit.adapter(Grocery::class.java)
 
         runBlocking {
-            val list = reader.loadFile().pages()
-            val items = adapter.readSheet(list.first())
+            val xlsxFile = reader.loadFile()
+            val items = adapter.readSheet(xlsxFile.pages().first())
             for (item in items) {
                 when (item) {
                     is RowReadResult.Failure -> println("[Failure] ${item.reason}")
                     is RowReadResult.Success -> println("[Success] ${item.data}")
                 }
             }
+
+            xlsxFile.close()
         }
     }
-
-    private val KepperCell.valueType: String
-        get() = when (this) {
-            KepperCell.Empty -> "empty"
-            is KepperCell.TypeBoolean -> this.booleanValue.toString()
-            is KepperCell.TypeDouble -> this.doubleValue.toString()
-            is KepperCell.TypeString -> this.stringValue
-            KepperCell.Unsupported -> "unsupported"
-        }
 }

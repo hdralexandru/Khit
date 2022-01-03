@@ -1,5 +1,6 @@
 package com.kepper.sheets
 
+import com.kepper.commons.exceptions.UnsupportedKepperException
 import com.kepper.commons.model.KepperFile
 import com.kepper.sheets.microsoft.MicrosoftFileOpener
 
@@ -9,7 +10,7 @@ class KepperFileReader private constructor(
 ) {
     suspend fun loadFile(): KepperFile = when (fileType) {
         FileType.MICROSOFT -> MicrosoftFileOpener()
-        FileType.OPEN_OFFICE -> TODO()
+        FileType.OPEN_OFFICE -> throw UnsupportedKepperException("")
     }.open(path)
 
     class Builder {

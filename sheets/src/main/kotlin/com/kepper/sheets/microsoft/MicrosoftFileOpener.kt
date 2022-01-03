@@ -13,7 +13,6 @@ internal class MicrosoftFileOpener : FileOpener {
     private var workbook: Workbook? = null
     private val translator: MicrosoftSheetTranslator = MicrosoftSheetTranslator()
 
-    // TODO don't forget to call close()
     @Throws(Exception::class)
     override suspend fun open(filepath: AbsolutFilePath): KepperFile {
         return withContext(Dispatchers.IO) {
@@ -25,9 +24,5 @@ internal class MicrosoftFileOpener : FileOpener {
 
             return@withContext result.getOrNull() ?: throw IOException(result.exceptionOrNull())
         }
-    }
-
-    override fun close() {
-        workbook?.close()
     }
 }

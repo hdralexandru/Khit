@@ -28,8 +28,8 @@ internal class KepperAnnotationProcessor(
                 models.add(model)
             }
         }
+
         models.forEach {
-            logger.warn("Model is: $it")
             FileGenerator.with(it).generate().writeTo(codeGenerator)
         }
 

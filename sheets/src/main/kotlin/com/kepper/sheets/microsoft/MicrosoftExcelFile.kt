@@ -18,4 +18,8 @@ internal class MicrosoftExcelFile internal constructor(
             add(page)
         }
     }
+
+    override fun close() {
+        workbook.close()
+    }
 }
