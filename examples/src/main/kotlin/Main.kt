@@ -1,8 +1,8 @@
 import com.hadaralex.khit.Khit
-import com.kepper.commons.RowReadResult
-import com.kepper.sheets.AbsolutFilePath
-import com.kepper.sheets.FileType
-import com.kepper.sheets.KepperFileReader
+import com.khit.commons.RowReadResult
+import com.khit.sheets.AbsolutFilePath
+import com.khit.sheets.FileType
+import com.khit.sheets.KhitFileReader
 import kotlinx.coroutines.runBlocking
 
 internal object Main {
@@ -10,7 +10,7 @@ internal object Main {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        val reader = KepperFileReader {
+        val reader = KhitFileReader {
             path = AbsolutFilePath(SHEET_PATH)
             type = FileType.MICROSOFT
         }

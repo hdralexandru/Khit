@@ -1,8 +1,8 @@
 package com.khit.utils
 
-import com.kepper.commons.NO_HEADER
-import com.kepper.commons.exceptions.HeaderNotFoundException
-import com.kepper.commons.model.PageHeader
+import com.khit.commons.NO_HEADER
+import com.khit.commons.exceptions.HeaderNotFoundException
+import com.khit.commons.model.PageHeader
 
 /**
  * Returns the index of [header] or throws

@@ -1,12 +1,12 @@
 package com.hadaralex.khit
 
 import com.hadaralex.khit.adapter.AdapterCache
-import com.kepper.commons.KepperAdapter
+import com.khit.commons.KhitAdapter
 
 object Khit {
     private val cache: AdapterCache = AdapterCache()
 
-    fun <T> adapter(type: Class<T>): KepperAdapter<T> {
+    fun <T> adapter(type: Class<T>): KhitAdapter<T> {
         return cache[type]
     }
 }

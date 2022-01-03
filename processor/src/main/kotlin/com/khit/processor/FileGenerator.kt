@@ -2,11 +2,11 @@ package com.khit.processor
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
-import com.kepper.commons.KepperAdapter
-import com.kepper.commons.RowReadResult
-import com.kepper.commons.exceptions.KepperException
-import com.kepper.commons.model.KepperPage
-import com.kepper.commons.model.PageHeader
+import com.khit.commons.KhitAdapter
+import com.khit.commons.RowReadResult
+import com.khit.commons.exceptions.KhitException
+import com.khit.commons.model.KhitPage
+import com.khit.commons.model.PageHeader
 import com.khit.processor.model.AnnotatedModel
 import com.khit.processor.model.ParameterModel
 import com.khit.processor.model.ParameterType
@@ -33,12 +33,12 @@ internal class FileGenerator private constructor(private val model: AnnotatedMod
             .addType(
                 TypeSpec.classBuilder(NamingUtils.buildAdapterName(model.className))
                     .addSuperinterface(
-                        ClassName(KepperAdapter::class.java.`package`.name, "KepperAdapter")
+                        ClassName(KhitAdapter::class.java.`package`.name, "KhitAdapter")
                             .plusParameter(ClassName(model.packageName, model.className))
                     ).addFunction(
                         FunSpec.builder("readSheet")
                             .addModifiers(KModifier.SUSPEND, KModifier.OVERRIDE)
-                            .addParameter("page", KepperPage::class)
+                            .addParameter("page", KhitPage::class)
                             .buildReadSheetBody(model)
                             .build()
                     )
@@ -91,7 +91,7 @@ internal class FileGenerator private constructor(private val model: AnnotatedMod
         annotatedModel: AnnotatedModel,
         rowReadResultType: ParameterizedTypeName,
     ) = this.apply {
-        val wrapIntoResultMember = MemberName("com.kepper.commons.RowReadResult.Companion", "wrapInRowReadResult")
+        val wrapIntoResultMember = MemberName("com.khit.commons.RowReadResult.Companion", "wrapInRowReadResult")
         beginControlFlow("for (row in page.dataRowIterator)")
         beginControlFlow("val rowReadResult: %T = %M", rowReadResultType, wrapIntoResultMember)
         for (model: ParameterModel in annotatedModel.members) {
@@ -113,7 +113,7 @@ internal class FileGenerator private constructor(private val model: AnnotatedMod
         for (model: ParameterModel in annotatedModel.members) {
             addStatement("${model.key}Index = header.%M(\"${model.key}\", page.sheetName)", indexOfOrThrowMember)
         }
-        nextControlFlow("catch(ke: %T)", KepperException::class.java)
+        nextControlFlow("catch(ke: %T)", KhitException::class.java)
         addStatement("return listOf(%T(ke))", RowReadResult.Failure::class.java)
         endControlFlow()
     }

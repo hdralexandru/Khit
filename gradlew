@@ -4,7 +4,7 @@
 # Copyright © 2015-2021 the original authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this com.hadaralex.kepper.file except in compliance with the License.
+# you may not use this com.hadaralex.khit.file except in compliance with the License.
 # You may obtain a copy of the License at
 #
 #      https://www.apache.org/licenses/LICENSE-2.0
@@ -139,7 +139,7 @@ Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
 fi
 
-# Increase the maximum com.hadaralex.kepper.file descriptors if we can.
+# Increase the maximum com.hadaralex.khit.file descriptors if we can.
 if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
     case $MAX_FD in #(
       max*)

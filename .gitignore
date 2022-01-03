@@ -1,7 +1,7 @@
 build
 .idea
 .gradle
-kepper/build
+khit/build
 examples/build
 .idea/*
 .DS_Store
