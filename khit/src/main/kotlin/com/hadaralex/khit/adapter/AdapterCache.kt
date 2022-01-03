@@ -1,6 +1,7 @@
 package com.hadaralex.khit.adapter
 
 import com.kepper.commons.KepperAdapter
+import com.kepper.commons.exceptions.AdapterNotFoundException
 import com.khit.utils.NamingUtils
 import java.lang.reflect.Type
 
@@ -24,6 +25,10 @@ internal class AdapterCache {
         val pkg = type.`package`.name
 
         val completeName = if (pkg.isEmpty()) name else "${pkg}.${name}"
-        return Class.forName(completeName)?.getDeclaredConstructor()?.newInstance() as KepperAdapter<*>
+        return try {
+            Class.forName(completeName)?.getDeclaredConstructor()?.newInstance() as KepperAdapter<*>
+        } catch (e: Throwable) {
+            throw AdapterNotFoundException(e)
+        }
     }
 }
