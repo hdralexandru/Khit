@@ -7,6 +7,21 @@ import com.kepper.commons.utils.KepperCellType
 
 object RowReader {
 
+    fun readDoubleOrNull(row: KepperRow, index: Int): Double? = when (val cell = row.getContentAt(index)) {
+        is KepperCell.TypeDouble -> cell.doubleValue
+        else -> null
+    }
+
+    fun readStringOrNull(row: KepperRow, index: Int): String? = when (val cell = row.getContentAt(index)) {
+        is KepperCell.TypeString -> cell.stringValue
+        else -> null
+    }
+
+    fun readBooleanOrNull(row: KepperRow, index: Int): Boolean? = when (val cell = row.getContentAt(index)) {
+        is KepperCell.TypeBoolean -> cell.booleanValue
+        else -> null
+    }
+
     fun readDoubleOrThrow(row: KepperRow, index: Int, defaultValue: Double? = null): Double {
         return readOrThrow(row, index, defaultValue, KepperCell.TypeDouble.CELL_TYPE) {
             (it as? KepperCell.TypeDouble)?.doubleValue

@@ -4,6 +4,7 @@ import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
 import com.kepper.commons.KepperAdapter
 import com.kepper.commons.RowReadResult
+import com.kepper.commons.exceptions.KepperException
 import com.kepper.commons.model.KepperPage
 import com.kepper.commons.model.PageHeader
 import com.khit.processor.model.AnnotatedModel
@@ -22,10 +23,11 @@ import com.squareup.kotlinpoet.ksp.KotlinPoetKspPreview
 import com.squareup.kotlinpoet.ksp.writeTo
 
 @KotlinPoetKspPreview
-internal class FileGenerator(private val model: AnnotatedModel) {
+internal class FileGenerator private constructor(private val model: AnnotatedModel) {
+    private var fileSpec: FileSpec? = null
 
-    fun writeTo(codeGenerator: CodeGenerator) {
-        val fileSpect = FileSpec.builder(model.packageName, NamingUtils.buildAdapterName(model.className))
+    fun generate(): FileGenerator {
+        this.fileSpec = FileSpec.builder(model.packageName, NamingUtils.buildAdapterName(model.className))
             .addType(
                 TypeSpec.classBuilder(NamingUtils.buildAdapterName(model.className))
                     .addSuperinterface(
@@ -42,18 +44,24 @@ internal class FileGenerator(private val model: AnnotatedModel) {
             )
             .build()
 
-        fileSpect.writeTo(codeGenerator, Dependencies.ALL_FILES)
+        return this
     }
 
-    private fun FunSpec.Builder.buildReadSheetBody(model: AnnotatedModel) = this.apply {
-        val indexOfOrThrowMember = MemberName("com.khit.utils.", "indexOfOrThrow")
+    fun writeTo(codeGenerator: CodeGenerator) {
+        val fileSpec = this.fileSpec ?: throw IllegalArgumentException(
+            "Be sure to first create the fileSpec by calling generate()"
+        )
+
+        fileSpec.writeTo(codeGenerator, Dependencies.ALL_FILES)
+    }
+
+    private fun FunSpec.Builder.buildReadSheetBody(annotatedModel: AnnotatedModel) = this.apply {
         addStatement("val header: %T = page.header", PageHeader::class)
-        for (pModel: ParameterModel in model.members) {
-            addStatement("val ${pModel.key}Index: Int = header.%M(\"${pModel.key}\", page.sheetName)",
-                indexOfOrThrowMember)
-        }
+
+        readIndexes(annotatedModel)
+
         val rowReadResultType = ClassName(RowReadResult::class.java.`package`.name, "RowReadResult").parameterizedBy(
-            ClassName(model.packageName, model.className)
+            ClassName(annotatedModel.packageName, annotatedModel.className)
         )
         val mutableListType = ClassName("kotlin.collections", "MutableList")
             .parameterizedBy(rowReadResultType)
@@ -62,24 +70,38 @@ internal class FileGenerator(private val model: AnnotatedModel) {
         val wrapIntoResultMember = MemberName("com.kepper.commons.RowReadResult.Companion", "wrapInRowReadResult")
         beginControlFlow("for (row in page.dataRowIterator)")
         beginControlFlow("val rowReadResult: %T = %M", rowReadResultType, wrapIntoResultMember)
-        for (pModel: ParameterModel in model.members) {
+        for (pModel: ParameterModel in annotatedModel.members) {
             addStatement("val ${pModel.key}: ${pModel.type.kotlinType} = com.khit.utils.RowReader.${pModel.type.asReadFunctionOrThrow}(row, ${pModel.key}Index)")
         }
 
         val namedString = StringBuilder()
-        for ((index: Int, pModel: ParameterModel) in model.members.withIndex()) {
+        for ((index: Int, pModel: ParameterModel) in annotatedModel.members.withIndex()) {
             namedString.append("${pModel.name} = ${pModel.key}")
-            if (index < model.members.size - 1) {
+            if (index < annotatedModel.members.size - 1) {
                 namedString.append(", ")
             }
         }
-        addStatement("${model.className}(${namedString.toString()})")
+        addStatement("${annotatedModel.className}(${namedString})")
         endControlFlow()
         addStatement("items.add(rowReadResult)")
         endControlFlow()
 
-        returns(mutableListType)
+        returns(ClassName("kotlin.collections", "List").parameterizedBy(rowReadResultType))
         addStatement("return items")
+    }
+
+    private fun FunSpec.Builder.readIndexes(annotatedModel: AnnotatedModel) = this.apply {
+        val indexOfOrThrowMember = MemberName("com.khit.utils.", "indexOfOrThrow")
+        for (model: ParameterModel in annotatedModel.members) {
+            addStatement("val ${model.key}Index: Int")
+        }
+        beginControlFlow("try {")
+        for (model: ParameterModel in annotatedModel.members) {
+            addStatement("${model.key}Index = header.%M(\"${model.key}\", page.sheetName)", indexOfOrThrowMember)
+        }
+        nextControlFlow("catch(ke: %T)", KepperException::class.java)
+        addStatement("return listOf(%T(ke))", RowReadResult.Failure::class.java)
+        endControlFlow()
     }
 
     private val ParameterType.asReadFunctionOrThrow: String?
@@ -90,4 +112,8 @@ internal class FileGenerator(private val model: AnnotatedModel) {
             ParameterType.UNSUPPORTED -> null
         }
 
+    companion object {
+        @JvmStatic
+        fun with(annotatedModel: AnnotatedModel): FileGenerator = FileGenerator(annotatedModel)
+    }
 }

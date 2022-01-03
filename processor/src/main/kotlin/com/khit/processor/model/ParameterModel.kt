@@ -8,11 +8,13 @@ internal data class ParameterModel(
     val name: String,
     val key: String,
     val positionInConstructor: Int,
+    val isNullable: Boolean,
     val type: ParameterType,
 ) {
     companion object {
         fun from(parameter: KSValueParameter, index: Int, logger: KSPLogger): ParameterModel? {
             var key: String? = null
+
             parameter.annotations.forEach {
                 val qualifier = it.annotationType.resolve().declaration.qualifiedName?.asString()
                 if (qualifier == KEY_ANNOTATION) {
@@ -29,13 +31,14 @@ internal data class ParameterModel(
             }
 
             val name = parameter.name?.asString() ?: return null
-            val type = ParameterType.from(parameter.type.resolve().declaration)
+            val resolvedType = parameter.type.resolve()
+            val type = ParameterType.from(resolvedType.declaration)
             logger.warn("Parameter: $name of type $type")
             return if (type == ParameterType.UNSUPPORTED) {
                 logger.error("Unsupported type detected. Skipping...")
                 null
             } else {
-                ParameterModel(name, key!!, index, type)
+                ParameterModel(name, key!!, index, resolvedType.isMarkedNullable, type)
             }
         }
     }

@@ -23,14 +23,14 @@ internal class KepperAnnotationProcessor(
         val symbols: Sequence<KSAnnotated> = resolver.getSymbolsWithAnnotation(PAGE_ANNOTATION)
         val models: MutableList<AnnotatedModel> = mutableListOf()
         for (symbol in symbols) {
-            val model = AnnotatedModel.from(logger, symbol, resolver)
+            val model = AnnotatedModel.from(logger, symbol)
             if (model != null) {
                 models.add(model)
             }
         }
-
         models.forEach {
-            FileGenerator(it).writeTo(codeGenerator)
+            logger.warn("Model is: $it")
+            FileGenerator.with(it).generate().writeTo(codeGenerator)
         }
 
         // returning
