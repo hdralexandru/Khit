@@ -1,10 +1,10 @@
 # Khit
 
-Khit is an annotation processor that helps you when reading table (_excels, calculator_) files. It is a wrapper over the native SDKs that each platforms offers.
+Khit is an annotation processor that helps you read table files(_Microsoft Excels, OpenOffice Calculator_). It is a wrapper over the native SDKs that each platforms offers.
 
 # How to
 
-To get started, simply annotated a class with `@Page`. This will tell Khit to generate and adapter for this class.
+To get started, simply annotate a class with `@Page`. This will tell Khit to generate and adapter for this class.
 
 Next, annotate each member with `@Key` and give the name of the column where the value is.
 
@@ -49,9 +49,9 @@ Platforms supported:
 
 # Add to project
 
-_Not currently in any repository. When a stable version is reached, it will be uploaded to maven_
+_Not currently in any repository. When a stable version is reached, it will be uploaded to Maven._
 
-_Meanwhile, feel free to copy & explore the project_
+_Meanwhile, feel free to copy & explore the project._
 
 # License
 
